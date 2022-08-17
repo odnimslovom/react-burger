@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 320px;
   max-width: 1920px;
+  width: 100%;
   margin: 0 auto;
-  background-color: #131316;
+  background-color: #1c1c21;
 }
