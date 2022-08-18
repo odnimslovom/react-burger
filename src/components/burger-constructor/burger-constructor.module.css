@@ -1,0 +1,57 @@
+.section {
+  max-width: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredientsContainer {
+  max-height: 656px;
+  margin: 16px 16px 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background-color: #1c1c21;
+}
+
+.elements {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  background-color: #1c1c21;
+}
+
+.elements::-webkit-scrollbar {
+  width: 8px; /* ширина scrollbar */
+}
+
+.elements::-webkit-scrollbar-track {
+  background: #2f2f37; /* цвет дорожки */
+}
+
+.elements::-webkit-scrollbar-thumb {
+  background-color: #8585ad; /* цвет плашки */
+  border: 8px solid #8585ad; /* padding вокруг плашки */
+}
+
+.total {
+  align-self: flex-end;
+  display: flex;
+}
+
+.total__price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
