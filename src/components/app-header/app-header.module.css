@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-.nav{
+.nav {
   margin: 0 auto;
   max-width: 1280px;
   width: 100%;
@@ -19,7 +19,7 @@
   list-style-type: none;
 }
 
-.menu__logo{
+.menu__logo {
   flex-grow: 2;
 }
 

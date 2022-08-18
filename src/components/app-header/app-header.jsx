@@ -1,6 +1,6 @@
-import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-
 import appHeaderStyles from './app-header.module.css';
+
+import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const AppHeader = () => {
   return (
@@ -9,7 +9,7 @@ const AppHeader = () => {
         <ul className={`${appHeaderStyles.menu}`}>
           <li>
             <a href={"#"} className={`${appHeaderStyles.menu__link} pr-5 pl-5 mr-2`}>
-              <BurgerIcon type={"primary"} />
+              <BurgerIcon type={"primary"}/>
               <p className={'text text_type_main-default ml-2'}>Коструктор</p>
             </a>
           </li>
@@ -21,7 +21,7 @@ const AppHeader = () => {
           </li>
           <li className={`${appHeaderStyles.menu__logo}`}>
             <a href={"#"} className={`${appHeaderStyles.menu__link} pr-5 pl-5`}>
-              <Logo />
+              <Logo/>
             </a>
           </li>
           <li>

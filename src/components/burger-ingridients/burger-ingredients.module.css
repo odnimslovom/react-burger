@@ -1,0 +1,30 @@
+.section {
+  max-width: 600px;
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+}
+
+.categories {
+  height: 756px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.categories::-webkit-scrollbar {
+  width: 8px; /* ширина scrollbar */
+}
+
+.categories::-webkit-scrollbar-track {
+  background: #2f2f37; /* цвет дорожки */
+}
+
+.categories::-webkit-scrollbar-thumb {
+  background-color: #8585ad; /* цвет плашки */
+  border: 8px solid #8585ad; /* padding вокруг плашки */
+}

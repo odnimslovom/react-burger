@@ -1,0 +1,14 @@
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+}
+.ingredientItems {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.categoryItem__name{
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,36 @@
+.ingredientItem {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 272px;
+  min-height: 208px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ingredientItem:hover {
+  opacity: .6;
+  transition: opacity .6s ease-in;
+}
+
+.ingredientItem__image {
+  max-width: 240px;
+}
+
+.ingredientItem__price {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredientItem__price_text {
+  max-width: 240px;
+}
+
+.ingredientItem__name {
+  max-width: 240px;
+}
