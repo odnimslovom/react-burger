@@ -1,5 +1,6 @@
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import React from "react";
+import {ingredientsArrayTypes} from '../../utils/propTypes'
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
@@ -33,6 +34,10 @@ const BurgerIngredients = (props) => {
       </ul>
     </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  data: ingredientsArrayTypes
 }
 
 export default BurgerIngredients;
