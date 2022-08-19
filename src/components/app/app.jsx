@@ -14,8 +14,9 @@ const App = () => {
     isLoading: true,
     hasError: false
   });
+
   const getAppData = (url) => {
-    function checkResponse(res) {
+    const checkResponse = (res) => {
       if (res.ok) {
         return res.json();
       }
@@ -47,12 +48,13 @@ const App = () => {
     getAppData(API_URL);
   }, []);
 
-
   return (
     <div className={appStyles.app}>
       <AppHeader/>
       <main className={appStyles.content}>
-        {appData.isLoading && <p className={'text text_type_main-large'}>Загрузка...</p>}
+        {appData.isLoading &&
+          <p className={'text text_type_main-large'}>Загрузка...</p>
+        }
         {!appData.isLoading && appData.hasError &&
           <p className={"text text_color_error text_type_main-large"}>Ошибка!!!</p>
         }

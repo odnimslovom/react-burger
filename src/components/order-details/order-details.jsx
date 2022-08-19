@@ -1,4 +1,5 @@
 import orderDetailsStyles from './order-details.module.css';
+import {orderItemTypes} from "../../utils/propTypes";
 
 const OrderDetails = ({order}) => {
   return (
@@ -14,6 +15,10 @@ const OrderDetails = ({order}) => {
       <p className={'mb-30 text text_type_main-default text_color_inactive'}>{order.info}</p>
     </>
   );
+}
+
+OrderDetails.propTypes = {
+  order : orderItemTypes
 }
 
 export default OrderDetails;

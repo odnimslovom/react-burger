@@ -5,7 +5,7 @@ import {ingredientsArrayTypes} from '../../utils/propTypes'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = ({data}) => {
 
   const [current, setCurrent] = React.useState('buns');
   const ingredientCategories = [
@@ -24,7 +24,7 @@ const BurgerIngredients = (props) => {
 
       <ul className={`${burgerIngredientsStyles.categories}`}>
         {ingredientCategories.map(category => {
-            const currentCategoryItems = props.data.filter(item => item.type === category.type);
+            const currentCategoryItems = data.filter(item => item.type === category.type);
             return <IngredientsCategory key={category.type}
                                         name={category.name}
                                         items={currentCategoryItems}

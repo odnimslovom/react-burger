@@ -1,6 +1,7 @@
 import {useState} from "react";
 
 import ingredientItemStyles from './ingredient-item.module.css';
+import {ingredientItemTypes} from "../../utils/propTypes";
 
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
@@ -36,6 +37,10 @@ const IngredientItem = ({item}) => {
       </Modal>
     </li>
   );
+}
+
+IngredientDetails.propTypes = {
+  item : ingredientItemTypes
 }
 
 export default IngredientItem;
