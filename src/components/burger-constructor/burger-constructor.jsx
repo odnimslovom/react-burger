@@ -8,7 +8,7 @@ import {ingredientsArrayTypes} from "../../utils/propTypes";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = ({data}) => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -31,7 +31,7 @@ const BurgerConstructor = (props) => {
                             price={20}/>
 
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
-          {props.data.map(ingredient => (
+          {data.map(ingredient => (
             <li key={String(ingredient._id)} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
               <DragIcon type={"primary"}/>
               <ConstructorElement isLocked={false}
@@ -54,8 +54,8 @@ const BurgerConstructor = (props) => {
           <CurrencyIcon type={"primary"}/>
         </div>
         <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>
-        <Modal isOpened={modalIsOpen} handleClose={handleClose} >
-          <OrderDetails order={orderData} />
+        <Modal isOpened={modalIsOpen} handleClose={handleClose}>
+          <OrderDetails order={orderData}/>
         </Modal>
       </div>
     </section>

@@ -1,4 +1,6 @@
 import ingredientsCategoryStyles from './ingredients-category.module.css';
+import PropTypes from "prop-types";
+import {ingredientsArrayTypes} from "../../utils/propTypes";
 
 import IngredientItem from "../ingredient-item/ingredient-item";
 
@@ -14,6 +16,11 @@ const IngredientsCategory = ({name, items}) => {
       </ul>
     </li>
   );
+}
+
+IngredientsCategory.propTypes = {
+  name : PropTypes.string.isRequired,
+  items : ingredientsArrayTypes,
 }
 
 export default IngredientsCategory;
