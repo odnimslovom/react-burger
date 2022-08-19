@@ -1,18 +1,16 @@
-import ingredientItemStyles from './ingredient-item.module.css';
-
 import {useState} from "react";
+
+import ingredientItemStyles from './ingredient-item.module.css';
 
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-
 
 const IngredientItem = ({item}) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClose = () => {
-    console.log("Close handled!")
     setIsModalOpen(false);
   }
 
@@ -34,7 +32,7 @@ const IngredientItem = ({item}) => {
         {item.name}
       </p>
       <Modal isOpened={isModalOpen} handleClose={handleClose}>
-        <IngredientDetails item={item} />
+        <IngredientDetails item={item}/>
       </Modal>
     </li>
   );

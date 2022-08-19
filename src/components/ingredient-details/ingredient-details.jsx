@@ -3,7 +3,8 @@ import ingredientDetailsStyles from './ingredient-details.module.css';
 const IngredientDetails = ({item}) => {
   return (
     <>
-      <h2 className={`${ingredientDetailsStyles.details__title} text text_type_main-large mt-10 mr-10 ml-10`}>{"Детали ингридиента"}</h2>
+      <h2
+        className={`${ingredientDetailsStyles.details__title} text text_type_main-large mt-10 mr-10 ml-10`}>{"Детали ингридиента"}</h2>
       <img src={String(item.image_large)} alt={item.name}/>
       <h3 className={'text text_type_main-medium mt-4 mb-8'}>{item.name}</h3>
       <ul className={`mb-15 ${ingredientDetailsStyles.details__items}`}>

@@ -1,8 +1,7 @@
-import appStyles from './app.module.css';
-
-import {API_URL} from "../../utils/constans";
-
 import {useEffect, useState} from "react";
+
+import appStyles from './app.module.css';
+import {API_URL} from "../../utils/constans";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingridients/burger-ingredients";
