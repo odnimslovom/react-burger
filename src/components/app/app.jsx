@@ -15,11 +15,6 @@ const App = () => {
     isLoading: true,
     hasError: false
   });
-
-  useEffect(() => {
-    getAppData(API_URL)
-  }, []);
-
   const getAppData = (url) => {
     function checkResponse(res) {
       if (res.ok) {
@@ -41,12 +36,18 @@ const App = () => {
       .catch(err => {
         setAppData(prevState => ({
           ...prevState,
+          ingredients: [],
           isLoading: false,
-          hasError: false
+          hasError: true
         }));
         console.error(err);
       });
   }
+
+  useEffect(() => {
+    getAppData(API_URL);
+  }, []);
+
 
   return (
     <div className={appStyles.app}>
