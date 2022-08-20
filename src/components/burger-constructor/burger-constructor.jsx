@@ -1,9 +1,26 @@
+import {useState} from "react";
+
 import burgerConstructorStyle from './burger-constructor.module.css';
+import {orderData} from '../../utils/order-data';
 
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientsArrayTypes} from "../../utils/propTypes";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = ({data}) => {
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleClose = () => {
+    setModalIsOpen(false);
+  }
+
+  const handleOrderClick = (evt) => {
+    evt.stopPropagation();
+    setModalIsOpen(true);
+  }
+
   return (
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
       <div className={`${burgerConstructorStyle.ingredientsContainer}`}>
@@ -14,8 +31,8 @@ const BurgerConstructor = (props) => {
                             price={20}/>
 
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
-          {props.data.map(ingredient => (
-            <li key={ingredient._id} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
+          {data.filter(ingredient => ingredient.type !== 'bun').map(ingredient => (
+            <li key={String(ingredient._id)} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
               <DragIcon type={"primary"}/>
               <ConstructorElement isLocked={false}
                                   text={ingredient.name}
@@ -36,7 +53,10 @@ const BurgerConstructor = (props) => {
           <p className={'text text_type_digits-medium'}>610</p>
           <CurrencyIcon type={"primary"}/>
         </div>
-        <Button type={'primary'} size={"medium"}>Оформить заказ</Button>
+        <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>
+        <Modal isOpened={modalIsOpen} handleClose={handleClose}>
+          <OrderDetails order={orderData}/>
+        </Modal>
       </div>
     </section>
   );
