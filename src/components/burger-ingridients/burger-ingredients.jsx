@@ -25,10 +25,10 @@ const BurgerIngredients = ({data}) => {
       <ul className={`${burgerIngredientsStyles.categories}`}>
         {ingredientCategories.map(category => {
             const currentCategoryItems = data.filter(item => item.type === category.type);
-            return <IngredientsCategory key={category.type}
+            return (<IngredientsCategory key={category.type}
                                         name={category.name}
                                         items={currentCategoryItems}
-            />
+            />);
           }
         )}
       </ul>

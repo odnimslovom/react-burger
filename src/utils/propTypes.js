@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import img from "../images/order/order_accepted.png";
 
 const ingredientTypes = {
   _id: PropTypes.string.isRequired,

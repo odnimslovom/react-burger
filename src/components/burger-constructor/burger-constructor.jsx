@@ -31,7 +31,7 @@ const BurgerConstructor = ({data}) => {
                             price={20}/>
 
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
-          {data.map(ingredient => (
+          {data.filter(ingredient => ingredient.type !== 'bun').map(ingredient => (
             <li key={String(ingredient._id)} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
               <DragIcon type={"primary"}/>
               <ConstructorElement isLocked={false}

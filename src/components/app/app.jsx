@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 
 import appStyles from './app.module.css';
 import {API_URL} from "../../utils/constans";
+import {checkResponse} from "../../utils/utils";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingridients/burger-ingredients";
@@ -16,12 +17,6 @@ const App = () => {
   });
 
   const getAppData = (url) => {
-    const checkResponse = (res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Error ${res.status}!`);
-    }
 
     fetch(url)
       .then(res => checkResponse(res))

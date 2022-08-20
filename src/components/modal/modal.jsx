@@ -9,19 +9,22 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const Modal = ({isOpened, children, handleClose}) => {
 
-  const handleEscClose = (evt) => {
-    if (evt.key === "Escape") {
-      handleClose();
-    }
-  }
-
   const handleModalClose = (evt) => {
     evt.stopPropagation();
     handleClose();
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleClose);
+
+    const handleEscClose = (evt) => {
+      if (evt.key === "Escape") {
+        handleClose();
+      }
+    }
+
+    if (isOpened) {
+      document.addEventListener('keydown', handleEscClose);
+    }
 
     return () => {
       document.removeEventListener('keydown', handleEscClose);
