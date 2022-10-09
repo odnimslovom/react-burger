@@ -1,18 +1,27 @@
 import {useContext, useEffect, useMemo, useState} from "react";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
-import {orderData} from '../../utils/order-data';
 
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {AppDataContext} from "../../services/appDataContext";
+import {API_URL} from "../../utils/constans";
+import {checkResponse} from "../../utils/utils";
 
 const BurgerConstructor = () => {
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [orderID, setOrderID] = useState({
+    name: "",
+    order: {
+      number: 0
+    },
+    success: false
+  })
 
   const {appData} = useContext(AppDataContext);
   const bunItem = useMemo(() => appData.ingredients.find(item => item.type === 'bun'), [appData.ingredients]);
@@ -27,13 +36,32 @@ const BurgerConstructor = () => {
     return filingItems.reduce((sum, item) => sum + item.price, 0) + bunItem.price * 2;
   }
 
+  const ingredientsIDs = useMemo(() => appData.ingredients.map(item => item._id), [appData.ingredients]);
+
   const handleClose = () => {
     setModalIsOpen(false);
   }
 
   const handleOrderClick = (evt) => {
     evt.stopPropagation();
+    getOrder(ingredientsIDs);
     setModalIsOpen(true);
+  }
+
+  const getOrder = (ingredientsIDs) => {
+    fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ingredients: ingredientsIDs
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(checkResponse)
+      .then((res) => setOrderID(res))
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   return (
@@ -77,7 +105,9 @@ const BurgerConstructor = () => {
         </div>
         <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>
         <Modal isOpened={modalIsOpen} handleClose={handleClose}>
-          <OrderDetails order={orderData}/>
+          <OrderDetails id={orderID.order.number}
+                        success={orderID.success}
+          />
         </Modal>
       </div>
     </section>
