@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 import {orderData} from '../../utils/order-data';
@@ -11,8 +11,21 @@ import {AppDataContext} from "../../services/appDataContext";
 
 const BurgerConstructor = () => {
 
-  const {appData} = useContext(AppDataContext);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const {appData} = useContext(AppDataContext);
+  const bunItem = useMemo(() => appData.ingredients.find(item => item.type === 'bun'), [appData.ingredients]);
+  const filingItems = useMemo(() => appData.ingredients.filter(item => item.type !== 'bun'),
+    [appData.ingredients]);
+
+  useEffect(() => {
+    setTotalPrice(getTotalPrice());
+  }, [bunItem, filingItems]);
+
+  const getTotalPrice = () => {
+    return filingItems.reduce((sum, item) => sum + item.price, 0) + bunItem.price * 2;
+  }
 
   const handleClose = () => {
     setModalIsOpen(false);
@@ -26,33 +39,40 @@ const BurgerConstructor = () => {
   return (
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
       <div className={`${burgerConstructorStyle.ingredientsContainer}`}>
-        <ConstructorElement type={"top"}
-                            isLocked={true}
-                            text={"Краторная булка N-200i (верх)"}
-                            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-                            price={20}/>
-
+        {
+          bunItem && <ConstructorElement type={"top"}
+                                         isLocked={true}
+                                         text={`${bunItem.name} (верх)`}
+                                         thumbnail={bunItem.image}
+                                         price={bunItem.price}/>
+        }
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
-          {appData.ingredients.filter(ingredient => ingredient.type !== 'bun').map(ingredient => (
-            <li key={String(ingredient._id)} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
-              <DragIcon type={"primary"}/>
-              <ConstructorElement isLocked={false}
-                                  text={ingredient.name}
-                                  thumbnail={ingredient.image}
-                                  price={ingredient.price}/>
-            </li>
-          ))}
+          {
+            filingItems && filingItems.map(ingredient => (
+              <li key={ingredient._id} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
+                <DragIcon type={"primary"}/>
+                <ConstructorElement isLocked={false}
+                                    text={ingredient.name}
+                                    thumbnail={ingredient.image}
+                                    price={ingredient.price}/>
+              </li>
+            ))
+          }
         </ul>
 
-        <ConstructorElement type={"bottom"}
-                            isLocked={true}
-                            text={"Краторная булка N-200i (низ)"}
-                            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-                            price={20}/>
+        {
+          bunItem && <ConstructorElement type={"bottom"}
+                                         isLocked={true}
+                                         text={`${bunItem.name} (низ)`}
+                                         thumbnail={bunItem.image}
+                                         price={bunItem.price}/>
+        }
+
       </div>
+
       <div className={`${burgerConstructorStyle.total} mt-10`}>
         <div className={`mr-10 ${burgerConstructorStyle.total__price}`}>
-          <p className={'text text_type_digits-medium'}>610</p>
+          <p className={'text text_type_digits-medium'}>{totalPrice}</p>
           <CurrencyIcon type={"primary"}/>
         </div>
         <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>

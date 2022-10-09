@@ -41,7 +41,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    getAppData(API_URL);
+    getAppData(`${API_URL}/ingredients`);
   }, []);
 
   return (
