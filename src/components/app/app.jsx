@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import appStyles from './app.module.css';
 import {API_URL} from "../../utils/constans";
 import {checkResponse} from "../../utils/utils";
+import {AppDataContext} from "../../services/appDataContext";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingridients/burger-ingredients";
@@ -55,8 +56,10 @@ const App = () => {
         }
         {!appData.isLoading && !appData.hasError &&
           <>
-            <BurgerIngredients data={appData.ingredients}/>
-            <BurgerConstructor data={appData.ingredients}/>
+            <AppDataContext.Provider value={{appData, setAppData}}>
+              <BurgerIngredients/>
+              <BurgerConstructor/>
+            </AppDataContext.Provider>
           </>
         }
       </main>

@@ -1,15 +1,17 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 import {orderData} from '../../utils/order-data';
 
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientsArrayTypes} from "../../utils/propTypes";
+
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import {AppDataContext} from "../../services/appDataContext";
 
-const BurgerConstructor = ({data}) => {
+const BurgerConstructor = () => {
 
+  const {appData} = useContext(AppDataContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -31,7 +33,7 @@ const BurgerConstructor = ({data}) => {
                             price={20}/>
 
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
-          {data.filter(ingredient => ingredient.type !== 'bun').map(ingredient => (
+          {appData.ingredients.filter(ingredient => ingredient.type !== 'bun').map(ingredient => (
             <li key={String(ingredient._id)} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
               <DragIcon type={"primary"}/>
               <ConstructorElement isLocked={false}
@@ -60,10 +62,6 @@ const BurgerConstructor = ({data}) => {
       </div>
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  data: ingredientsArrayTypes
 }
 
 export default BurgerConstructor;
