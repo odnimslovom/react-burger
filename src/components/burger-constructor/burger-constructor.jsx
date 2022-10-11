@@ -15,18 +15,13 @@ const BurgerConstructor = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const [orderID, setOrderID] = useState({
-    name: "",
-    order: {
-      number: 0
-    },
-    success: false
-  })
+  const [orderID, setOrderID] = useState(null);
+
 
   const {appData} = useContext(AppDataContext);
-  const bunItem = useMemo(() => appData.ingredients.find(item => item.type === 'bun'), [appData.ingredients]);
-  const filingItems = useMemo(() => appData.ingredients.filter(item => item.type !== 'bun'),
-    [appData.ingredients]);
+  const bunItem = useMemo(() => appData.find(item => item.type === 'bun'), [appData]);
+  const filingItems = useMemo(() => appData.filter(item => item.type !== 'bun'),
+    [appData]);
 
   useEffect(() => {
     setTotalPrice(getTotalPrice());
@@ -36,7 +31,7 @@ const BurgerConstructor = () => {
     return filingItems.reduce((sum, item) => sum + item.price, 0) + bunItem.price * 2;
   }
 
-  const ingredientsIDs = useMemo(() => appData.ingredients.map(item => item._id), [appData.ingredients]);
+  const ingredientsIDs = useMemo(() => appData.map(item => item._id), [appData]);
 
   const handleClose = () => {
     setModalIsOpen(false);

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import {AppDataContext} from "../../services/appDataContext";
+import {ingredientCategories} from "../../utils/constans";
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
@@ -16,27 +17,10 @@ const BurgerIngredients = () => {
   const {appData} = useContext(AppDataContext);
 
   const [current, setCurrent] = React.useState('buns');
-  const [ingredientDetails, setIngredientDetails] = React.useState({
-    _id: '',
-    name: '',
-    type: '',
-    proteins: 0,
-    fat: 0,
-    carbohydrates: 0,
-    calories: 0,
-    price: 0,
-    image: '',
-    image_mobile: '',
-    image_large: '',
-    __v: 0
-  });
+  const [ingredientDetails, setIngredientDetails] = React.useState(null);
   const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
 
-  const ingredientCategories = [
-    {name: "Булки", type: 'bun'},
-    {name: "Соусы", type: 'sauce'},
-    {name: "Начинки", type: 'main'}
-  ]
+  console.log(appData);
 
   const handleClose = () => {
     setIngredientModalIsOpen(false);
@@ -55,7 +39,7 @@ const BurgerIngredients = () => {
       <ul className={`${burgerIngredientsStyles.categories}`}>
         {
           ingredientCategories.map(category => {
-            const currentCategoryItems = appData.ingredients.filter(item => item.type === category.type);
+            const currentCategoryItems = appData.filter(item => item.type === category.type);
             return (<IngredientsCategory key={category.type}
                                          name={category.name}
                                          items={currentCategoryItems}
