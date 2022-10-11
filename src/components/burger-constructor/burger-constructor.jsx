@@ -3,30 +3,24 @@ import {orderItemTypes} from "../../utils/propTypes";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 import {AppDataContext} from "../../services/appDataContext";
-import {API_URL} from "../../utils/constans";
-import {checkResponse} from "../../utils/utils";
 
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import {useBurgerService} from "../../services/burgerApiServicve";
 
 const BurgerConstructor = () => {
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [orderID, setOrderID] = useState(null);
 
-  const [orderID, setOrderID] = useState({
-    name: "",
-    order: {
-      number: 0
-    },
-    success: false
-  })
+  const {getOrder, hasError} = useBurgerService();
 
   const {appData} = useContext(AppDataContext);
-  const bunItem = useMemo(() => appData.ingredients.find(item => item.type === 'bun'), [appData.ingredients]);
-  const filingItems = useMemo(() => appData.ingredients.filter(item => item.type !== 'bun'),
-    [appData.ingredients]);
+  const bunItem = useMemo(() => appData.find(item => item.type === 'bun'), [appData]);
+  const filingItems = useMemo(() => appData.filter(item => item.type !== 'bun'),
+    [appData]);
 
   useEffect(() => {
     setTotalPrice(getTotalPrice());
@@ -36,7 +30,7 @@ const BurgerConstructor = () => {
     return filingItems.reduce((sum, item) => sum + item.price, 0) + bunItem.price * 2;
   }
 
-  const ingredientsIDs = useMemo(() => appData.ingredients.map(item => item._id), [appData.ingredients]);
+  const ingredientsIDs = useMemo(() => appData.map(item => item._id), [appData]);
 
   const handleClose = () => {
     setModalIsOpen(false);
@@ -44,25 +38,11 @@ const BurgerConstructor = () => {
 
   const handleOrderClick = (evt) => {
     evt.stopPropagation();
-    getOrder(ingredientsIDs);
+    getOrder(ingredientsIDs).then((order) => {setOrderID(order)});
     setModalIsOpen(true);
   }
 
-  const getOrder = (ingredientsIDs) => {
-    fetch(`${API_URL}/orders`, {
-      method: 'POST',
-      body: JSON.stringify({
-        ingredients: ingredientsIDs
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(checkResponse)
-      .then((res) => setOrderID(res))
-      .catch(err => {
-        console.error(err)
-      })
-  }
+
 
   return (
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
@@ -107,14 +87,14 @@ const BurgerConstructor = () => {
       </div>
 
       <Modal isOpened={modalIsOpen} handleClose={handleClose}>
-        <OrderDetails id={orderID.order.number}
-                      success={orderID.success}
+        <OrderDetails id={orderID}
+                      success={!hasError}
         />
       </Modal>
     </section>
   );
 }
 
-OrderDetails.propTypes = orderItemTypes;
+
 
 export default BurgerConstructor;

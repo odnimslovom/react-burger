@@ -1,5 +1,6 @@
 import orderDetailsStyles from './order-details.module.css';
 import orderAcceptedImg from '../../images/order/order_accepted.png';
+import {orderItemTypes} from "../../utils/propTypes";
 
 const OrderDetails = ({id, success}) => {
 
@@ -21,5 +22,7 @@ const OrderDetails = ({id, success}) => {
     </>
   );
 }
+
+OrderDetails.propTypes = orderItemTypes;
 
 export default OrderDetails;
