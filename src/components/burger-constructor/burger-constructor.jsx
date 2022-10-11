@@ -1,14 +1,14 @@
 import {useContext, useEffect, useMemo, useState} from "react";
+import {orderItemTypes} from "../../utils/propTypes";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
-
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
 import {AppDataContext} from "../../services/appDataContext";
 import {API_URL} from "../../utils/constans";
 import {checkResponse} from "../../utils/utils";
+
+import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 const BurgerConstructor = () => {
 
@@ -104,14 +104,17 @@ const BurgerConstructor = () => {
           <CurrencyIcon type={"primary"}/>
         </div>
         <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>
-        <Modal isOpened={modalIsOpen} handleClose={handleClose}>
-          <OrderDetails id={orderID.order.number}
-                        success={orderID.success}
-          />
-        </Modal>
       </div>
+
+      <Modal isOpened={modalIsOpen} handleClose={handleClose}>
+        <OrderDetails id={orderID.order.number}
+                      success={orderID.success}
+        />
+      </Modal>
     </section>
   );
 }
+
+OrderDetails.propTypes = orderItemTypes;
 
 export default BurgerConstructor;

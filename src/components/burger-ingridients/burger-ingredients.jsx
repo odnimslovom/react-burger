@@ -1,12 +1,15 @@
-import burgerIngredientsStyles from './burger-ingredients.module.css';
 import React, {useContext} from "react";
-import {ingredientItemTypes} from '../../utils/propTypes'
+import {ingredientItemTypes, ingredientsArrayTypes} from '../../utils/propTypes';
+import PropTypes from "prop-types";
+
+import burgerIngredientsStyles from './burger-ingredients.module.css';
+import {AppDataContext} from "../../services/appDataContext";
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {AppDataContext} from "../../services/appDataContext";
+
 
 const BurgerIngredients = () => {
 
@@ -29,7 +32,6 @@ const BurgerIngredients = () => {
   });
   const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
 
-
   const ingredientCategories = [
     {name: "Булки", type: 'bun'},
     {name: "Соусы", type: 'sauce'},
@@ -43,6 +45,7 @@ const BurgerIngredients = () => {
   return (
     <section className={burgerIngredientsStyles.section}>
       <h1 className={'text text_type_main-large pt-10 pb-5'}>Соберите бургер</h1>
+
       <div className={`${burgerIngredientsStyles.tabs} mt-5 mb-10`}>
         <Tab active={current === 'buns'} value={'buns'} onClick={setCurrent}>Булки</Tab>
         <Tab active={current === 'sauces'} value={'sauces'} onClick={setCurrent}>Соусы</Tab>
@@ -50,7 +53,8 @@ const BurgerIngredients = () => {
       </div>
 
       <ul className={`${burgerIngredientsStyles.categories}`}>
-        {ingredientCategories.map(category => {
+        {
+          ingredientCategories.map(category => {
             const currentCategoryItems = appData.ingredients.filter(item => item.type === category.type);
             return (<IngredientsCategory key={category.type}
                                          name={category.name}
@@ -59,14 +63,21 @@ const BurgerIngredients = () => {
                                          setIngredientModal={setIngredientModalIsOpen}
 
             />);
-          }
-        )}
+          })
+        }
       </ul>
       <Modal isOpened={ingredientModalIsOpen} handleClose={handleClose}>
         <IngredientDetails item={ingredientDetails}/>
       </Modal>
     </section>
   );
+}
+
+IngredientsCategory.propTypes = {
+  name: PropTypes.string.isRequired,
+  items: ingredientsArrayTypes,
+  setIngredient: PropTypes.func.isRequired,
+  setIngredientModal: PropTypes.func.isRequired,
 }
 
 IngredientDetails.propTypes = {
