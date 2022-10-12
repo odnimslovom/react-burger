@@ -12,22 +12,11 @@ const App = () => {
 
   const [appData, setAppData] = useState([]);
   const {isLoading, hasError, getAppData} = useBurgerService();
-<<<<<<< HEAD
-
-  useEffect(() => {
-    getAppData().then(onDataLoaded);
-  }, []);
-
-  const onDataLoaded = (data) => {
-    setAppData(data);
-  }
-
-=======
 
   useEffect(() => {
     getAppData().then(onAppDataLoaded);
   }, []);
->>>>>>> 2ba937bc97553f962c7a4b818da4ca4344434387
+
 
   const onAppDataLoaded = (appData) => {
     setAppData(appData);
@@ -49,7 +38,7 @@ const App = () => {
           <>
             <AppDataContext.Provider value={{appData}}>
               <BurgerIngredients/>
-              <BurgerConstructor/>
+              {/*<BurgerConstructor/>*/}
             </AppDataContext.Provider>
           </>
         }

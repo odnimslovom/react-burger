@@ -17,17 +17,9 @@ const BurgerIngredients = () => {
   const {appData} = useContext(AppDataContext);
   console.log(appData);
 
-<<<<<<< HEAD
   const [current, setCurrent] = useState('buns');
   const [ingredientDetails, setIngredientDetails] = useState(null);
   const [ingredientModalIsOpen, setIngredientModalIsOpen] = useState(false);
-=======
-  const [current, setCurrent] = React.useState('buns');
-  const [ingredientDetails, setIngredientDetails] = React.useState(null);
-  const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
-
-  console.log(appData);
->>>>>>> 2ba937bc97553f962c7a4b818da4ca4344434387
 
   const handleClose = () => {
     setIngredientModalIsOpen(false);

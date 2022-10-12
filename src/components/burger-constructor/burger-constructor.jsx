@@ -15,12 +15,8 @@ const BurgerConstructor = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [orderID, setOrderID] = useState(null);
 
-<<<<<<< HEAD
-  const {getOrder, hasError} = useBurgerService();
-=======
-  const [orderID, setOrderID] = useState(null);
 
->>>>>>> 2ba937bc97553f962c7a4b818da4ca4344434387
+  const {getOrder, hasError} = useBurgerService();
 
   const {appData} = useContext(AppDataContext);
   const bunItem = useMemo(() => appData.find(item => item.type === 'bun'), [appData]);
