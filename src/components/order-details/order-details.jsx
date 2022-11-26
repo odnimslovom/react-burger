@@ -4,7 +4,7 @@ import {orderItemTypes} from "../../utils/propTypes";
 
 const OrderDetails = ({id, success}) => {
 
-  const successMessage = success ? 'Ваш заказ начали готовить' : 'Что-то пошло не так..';
+  const statusMessage = success ? 'Ваш заказ начали готовить' : 'Что-то пошло не так..';
   const infoMessage = success ? 'Дождитесь\n' +
     'готовности на орбитальной станции' : 'Попробуйте заказать еще раз!'
 
@@ -17,7 +17,7 @@ const OrderDetails = ({id, success}) => {
       <img className={`${orderDetailsStyles.image} mt-15 mb-15`}
            src={orderAcceptedImg}
            alt={'Order accepted'}/>
-      <p className={'mb-2 text_type_main-default'}>{successMessage}</p>
+      <p className={'mb-2 text_type_main-default'}>{statusMessage}</p>
       <p className={'mb-30 text text_type_main-default text_color_inactive'}>{infoMessage}</p>
     </>
   );

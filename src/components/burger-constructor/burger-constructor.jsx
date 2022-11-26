@@ -1,5 +1,4 @@
 import {useContext, useEffect, useMemo, useState} from "react";
-import {orderItemTypes} from "../../utils/propTypes";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 import {AppDataContext} from "../../services/appDataContext";
@@ -10,25 +9,21 @@ import OrderDetails from "../order-details/order-details";
 import {useBurgerService} from "../../services/burgerApiServicve";
 
 const BurgerConstructor = () => {
-
+  const {appData} = useContext(AppDataContext);
   const [totalPrice, setTotalPrice] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [orderID, setOrderID] = useState(null);
-
-
-  const {getOrder, hasError} = useBurgerService();
-
-  const {appData} = useContext(AppDataContext);
   const bunItem = useMemo(() => appData.find(item => item.type === 'bun'), [appData]);
   const filingItems = useMemo(() => appData.filter(item => item.type !== 'bun'),
     [appData]);
+  const {getOrder, hasError} = useBurgerService();
 
   useEffect(() => {
     setTotalPrice(getTotalPrice());
   }, [bunItem, filingItems]);
 
   const getTotalPrice = () => {
-    return filingItems.reduce((sum, item) => sum + item.price, 0) + bunItem.price * 2;
+    return filingItems.reduce((sum, item) => sum + item.price, bunItem ? bunItem.price * 2 : 0);
   }
 
   const ingredientsIDs = useMemo(() => appData.map(item => item._id), [appData]);
@@ -39,11 +34,11 @@ const BurgerConstructor = () => {
 
   const handleOrderClick = (evt) => {
     evt.stopPropagation();
-    getOrder(ingredientsIDs).then((order) => {setOrderID(order)});
+    getOrder(ingredientsIDs).then((order) => {
+      setOrderID(order)
+    });
     setModalIsOpen(true);
   }
-
-
 
   return (
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
@@ -88,14 +83,10 @@ const BurgerConstructor = () => {
       </div>
 
       <Modal isOpened={modalIsOpen} handleClose={handleClose}>
-        <OrderDetails id={orderID}
-                      success={!hasError}
-        />
+        <OrderDetails id={orderID} success={!hasError}/>
       </Modal>
     </section>
   );
 }
-
-
 
 export default BurgerConstructor;

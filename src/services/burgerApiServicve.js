@@ -1,5 +1,5 @@
 import {API_URL} from "../utils/constans";
-import {useHttp} from "../hooks/http.hook";
+import {useHttp} from "../utils/hocs/http.hoc";
 
 export const useBurgerService = () => {
   const {isLoading, hasError, clearError, request} = useHttp();

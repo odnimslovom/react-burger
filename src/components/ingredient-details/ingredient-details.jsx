@@ -34,4 +34,5 @@ IngredientDetails.propTypes = {
   item : ingredientItemTypes
 }
 
+
 export default IngredientDetails;

@@ -1,5 +1,5 @@
 import {useCallback, useState} from "react";
-import {checkResponse} from "../utils/utils";
+import {checkResponse} from "../utils";
 
 export const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);

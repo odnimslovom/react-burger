@@ -24,5 +24,5 @@ const orderTypes = {
 }
 
 export const orderItemTypes = PropTypes.shape(orderTypes).isRequired
-export const ingredientItemTypes = PropTypes.shape(ingredientTypes).isRequired;
+export const ingredientItemTypes = PropTypes.shape(ingredientTypes);
 export const ingredientsArrayTypes = PropTypes.arrayOf(ingredientItemTypes).isRequired;

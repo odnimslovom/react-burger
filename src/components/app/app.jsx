@@ -17,10 +17,8 @@ const App = () => {
     getAppData().then(onAppDataLoaded);
   }, []);
 
-
   const onAppDataLoaded = (appData) => {
     setAppData(appData);
-    console.log('loaded');
   }
 
   return (
@@ -38,7 +36,7 @@ const App = () => {
           <>
             <AppDataContext.Provider value={{appData}}>
               <BurgerIngredients/>
-              {/*<BurgerConstructor/>*/}
+              <BurgerConstructor/>
             </AppDataContext.Provider>
           </>
         }
