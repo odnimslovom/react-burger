@@ -1,25 +1,22 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
 import appStyles from './app.module.css';
-import {useBurgerService} from '../../services/burgerApiServicve'
-import {AppDataContext} from "../../services/appDataContext";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingridients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
+import {getIngredients} from "../../services/actions/burger-ingredients";
+
 const App = () => {
 
-  const [appData, setAppData] = useState([]);
-  const {isLoading, hasError, getAppData} = useBurgerService();
+  const dispatch = useDispatch();
+  const {isLoading, hasError} = useSelector(store => store.burgerIngredients);
 
   useEffect(() => {
-    getAppData().then(onAppDataLoaded);
-  }, []);
-
-  const onAppDataLoaded = (appData) => {
-    setAppData(appData);
-  }
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <div className={appStyles.app}>
@@ -34,10 +31,8 @@ const App = () => {
         }
         {!isLoading && !hasError &&
           <>
-            <AppDataContext.Provider value={{appData}}>
-              <BurgerIngredients/>
-              <BurgerConstructor/>
-            </AppDataContext.Provider>
+            <BurgerIngredients/>
+            <BurgerConstructor/>
           </>
         }
       </main>

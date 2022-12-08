@@ -1,29 +1,29 @@
 import ingredientsCategoryStyles from './ingredients-category.module.css';
 import PropTypes from "prop-types";
-import {ingredientsArrayTypes} from "../../utils/propTypes";
-
+import {useSelector} from "react-redux";
 import IngredientItem from "../ingredient-item/ingredient-item";
 
-const IngredientsCategory = ({name, items, setIngredient, setIngredientModal}) => {
 
-    return (
-        <li className={`${ingredientsCategoryStyles.categoryItem}`}>
-            <h2 className={ingredientsCategoryStyles.categoryItem__name}>{name}</h2>
-            <ul className={ingredientsCategoryStyles.ingredientItems}>
-                {items.map(item => (
-                    <IngredientItem key={item._id}
-                                    item={item}
-                                    setIngredient={setIngredient}
-                                    setIngredientModal={setIngredientModal}/>
-                ))}
-            </ul>
-        </li>
-    );
+const IngredientsCategory = ({name, ingredientType}) => {
+
+  const {ingredients} = useSelector(state => state.burgerIngredients);
+  const categoryItems = ingredients.filter(item => item.type === ingredientType);
+
+  return (
+    <li className={`${ingredientsCategoryStyles.categoryItem}`}>
+      <h2 className={ingredientsCategoryStyles.categoryItem__name}>{name}</h2>
+      <ul className={ingredientsCategoryStyles.ingredientItems}>
+        {categoryItems.map(item => (
+          <IngredientItem key={item._id} item={item}/>
+        ))}
+      </ul>
+    </li>
+  );
 }
 
 IngredientsCategory.propTypes = {
-    name: PropTypes.string.isRequired,
-    items: ingredientsArrayTypes,
+  name: PropTypes.string.isRequired,
+  ingredientType: PropTypes.string.isRequired,
 }
 
 export default IngredientsCategory;

@@ -1,58 +1,39 @@
-import {useContext, useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 
 import burgerConstructorStyle from './burger-constructor.module.css';
-import {AppDataContext} from "../../services/appDataContext";
-
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import {useBurgerService} from "../../services/burgerApiServicve";
+import {useDispatch, useSelector} from "react-redux";
 
 const BurgerConstructor = () => {
-  const {appData} = useContext(AppDataContext);
+
+  const dispatch = useDispatch();
+  const {bunItem, fillingItems} = useSelector(state => state.burgerConstructor);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [orderID, setOrderID] = useState(null);
-  const bunItem = useMemo(() => appData.find(item => item.type === 'bun'), [appData]);
-  const filingItems = useMemo(() => appData.filter(item => item.type !== 'bun'),
-    [appData]);
-  const {getOrder, hasError} = useBurgerService();
 
   useEffect(() => {
-    setTotalPrice(getTotalPrice());
-  }, [bunItem, filingItems]);
+    const totalPrice = fillingItems.reduce(
+      (sum, item) => sum + item.price, bunItem.length !== 0 ? (bunItem.price * 2) : 0
+    );
+    setTotalPrice(totalPrice);
+  }, [bunItem, fillingItems]);
 
-  const getTotalPrice = () => {
-    return filingItems.reduce((sum, item) => sum + item.price, bunItem ? bunItem.price * 2 : 0);
-  }
-
-  const ingredientsIDs = useMemo(() => appData.map(item => item._id), [appData]);
-
-  const handleClose = () => {
-    setModalIsOpen(false);
-  }
-
-  const handleOrderClick = (evt) => {
-    evt.stopPropagation();
-    getOrder(ingredientsIDs).then((order) => {
-      setOrderID(order)
-    });
-    setModalIsOpen(true);
+  function handleOrderClick() {
+    console.log("handleOrderClick");
   }
 
   return (
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
       <div className={`${burgerConstructorStyle.ingredientsContainer}`}>
         {
-          bunItem && <ConstructorElement type={"top"}
-                                         isLocked={true}
-                                         text={`${bunItem.name} (верх)`}
-                                         thumbnail={bunItem.image}
-                                         price={bunItem.price}/>
+          bunItem.length !== 0 && <ConstructorElement type={"top"}
+                                                      isLocked={true}
+                                                      text={`${bunItem.name} (верх)`}
+                                                      thumbnail={bunItem.image}
+                                                      price={bunItem.price}/>
         }
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
           {
-            filingItems && filingItems.map(ingredient => (
+            fillingItems !== 0 && fillingItems.map(ingredient => (
               <li key={ingredient._id} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
                 <DragIcon type={"primary"}/>
                 <ConstructorElement isLocked={false}
@@ -65,11 +46,11 @@ const BurgerConstructor = () => {
         </ul>
 
         {
-          bunItem && <ConstructorElement type={"bottom"}
-                                         isLocked={true}
-                                         text={`${bunItem.name} (низ)`}
-                                         thumbnail={bunItem.image}
-                                         price={bunItem.price}/>
+          bunItem.length !== 0 && <ConstructorElement type={"bottom"}
+                                                      isLocked={true}
+                                                      text={`${bunItem.name} (низ)`}
+                                                      thumbnail={bunItem.image}
+                                                      price={bunItem.price}/>
         }
 
       </div>
@@ -82,9 +63,6 @@ const BurgerConstructor = () => {
         <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>
       </div>
 
-      <Modal isOpened={modalIsOpen} handleClose={handleClose}>
-        <OrderDetails id={orderID} success={!hasError}/>
-      </Modal>
     </section>
   );
 }

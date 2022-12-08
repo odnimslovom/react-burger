@@ -1,44 +1,42 @@
-import {useContext, useState} from "react";
-import {ingredientsArrayTypes} from '../../utils/propTypes';
-import PropTypes from "prop-types";
+import {useEffect, useState} from "react";
+import {useInView} from "react-intersection-observer";
 
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import {AppDataContext} from "../../services/appDataContext";
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-
 
 const BurgerIngredients = () => {
 
-  const {appData} = useContext(AppDataContext);
   const [current, setCurrent] = useState('buns');
-  const [ingredientDetails, setIngredientDetails] = useState(null);
-  const [ingredientModalIsOpen, setIngredientModalIsOpen] = useState(false);
+  const [bunsRef, bunsInView] = useInView({
+    threshold: 0.2
+  });
+  const [saucesRef, saucesInView] = useInView({
+    threshold: 0.2
+  });
+  const [fillingsRef, fillingsInView] = useInView({
+    threshold: 0.2
+  });
 
-  const handleClose = () => {
-    setIngredientModalIsOpen(false);
-  }
-
-  const ingredientCategories = [
-    {
-      name: 'Булки',
-      type: 'bun',
-      items: appData.filter(item => item.type === 'bun')
-    },
-    {
-      name: 'Соусы',
-      type: 'sauce',
-      items: appData.filter(item => item.type === 'sauce')
-    },
-    {
-      name: 'Начинки',
-      type: 'main',
-      items: appData.filter(item => item.type === 'main')
+  const handleScroll = () => {
+    switch (true) {
+      case bunsInView:
+        setCurrent('buns');
+        break;
+      case saucesInView:
+        setCurrent('sauces');
+        break;
+      case fillingsInView:
+        setCurrent('fillings');
+        break;
+      default:
+        break;
     }
-  ]
+  };
+  useEffect(() => {
+    handleScroll();
+  }, [bunsInView, saucesInView, fillingsInView]);
 
   return (
     <section className={burgerIngredientsStyles.section}>
@@ -51,31 +49,19 @@ const BurgerIngredients = () => {
       </div>
 
       <ul className={`${burgerIngredientsStyles.categories}`}>
-        {
-          ingredientCategories.map(category => {
-            return (<IngredientsCategory key={category.type}
-                                         name={category.name}
-                                         items={category.items}
-                                         setIngredient={setIngredientDetails}
-                                         setIngredientModal={setIngredientModalIsOpen}
-
-            />);
-          })
-        }
+        <div ref={bunsRef}>
+          <IngredientsCategory key='buns' name='Булки' ingredientType='bun'/>
+        </div>
+        <div ref={saucesRef}>
+          <IngredientsCategory key='buns' name='Соусы' ingredientType='sauce'/>
+        </div>
+        <div ref={fillingsRef}>
+          <IngredientsCategory key='buns' name='Начинки' ingredientType='main'/>
+        </div>
       </ul>
-      <Modal isOpened={ingredientModalIsOpen} handleClose={handleClose}>
-        <IngredientDetails item={ingredientDetails}/>
-      </Modal>
+
     </section>
   );
 }
-
-IngredientsCategory.propTypes = {
-  name: PropTypes.string.isRequired,
-  items: ingredientsArrayTypes,
-  setIngredient: PropTypes.func.isRequired,
-  setIngredientModal: PropTypes.func.isRequired,
-}
-
 export default BurgerIngredients;
 

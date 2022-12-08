@@ -1,0 +1,1 @@
+export const POST_ORDER_DETAILS = 'POST_ORDER_DETAILS';

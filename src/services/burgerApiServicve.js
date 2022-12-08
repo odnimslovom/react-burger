@@ -1,26 +1,29 @@
 import {API_URL} from "../utils/constans";
-import {useHttp} from "../utils/hocs/http.hoc";
+import {checkResponse} from "../utils/utils";
 
-export const useBurgerService = () => {
-  const {isLoading, hasError, clearError, request} = useHttp();
+export const getAppData = async () => {
+  return fetch(`${API_URL}/ingredients`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => checkResponse(res))
+}
 
-  const getAppData = async () => {
-    const response = await request(`${API_URL}/ingredients`);
-    return response.data;
-  }
-
-  const getOrder = async (ingredientsIDs) => {
-    const response = await request(`${API_URL}/orders`, 'POST', JSON.stringify({
-      ingredients: ingredientsIDs
-    }));
-    return response.order.number;
-  }
-
-  return {
-    isLoading,
-    hasError,
-    clearError,
-    getAppData,
-    getOrder
-  }
+export const postOrder = async (ingredients) => {
+  return fetch(`${API_URL}/orders`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          ingredients: ingredients
+        }
+      )
+    })
+    .then(res => checkResponse(res))
 }
