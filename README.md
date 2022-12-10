@@ -5,4 +5,4 @@
 ### Технологии
 * CRA
 * React
-* HOCs
+* Redux

@@ -34,6 +34,7 @@ const BurgerIngredients = () => {
         break;
     }
   };
+
   useEffect(() => {
     handleScroll();
   }, [bunsInView, saucesInView, fillingsInView]);

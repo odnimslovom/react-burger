@@ -12,7 +12,7 @@ export const getAppData = async () => {
     .then(res => checkResponse(res))
 }
 
-export const postOrder = async (ingredients) => {
+export const postOrderData = async (orderID) => {
   return fetch(`${API_URL}/orders`,
     {
       method: 'POST',
@@ -21,7 +21,7 @@ export const postOrder = async (ingredients) => {
       },
       body: JSON.stringify(
         {
-          ingredients: ingredients
+          ingredients: orderID
         }
       )
     })

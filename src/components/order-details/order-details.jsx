@@ -2,16 +2,16 @@ import orderDetailsStyles from './order-details.module.css';
 import orderAcceptedImg from '../../images/order/order_accepted.png';
 import {orderItemTypes} from "../../utils/propTypes";
 
-const OrderDetails = ({id, success}) => {
+const OrderDetails = ({order}) => {
 
-  const statusMessage = success ? 'Ваш заказ начали готовить' : 'Что-то пошло не так..';
-  const infoMessage = success ? 'Дождитесь\n' +
+  const statusMessage = order.success ? 'Ваш заказ начали готовить' : 'Что-то пошло не так..';
+  const infoMessage = order.success ? 'Дождитесь\n' +
     'готовности на орбитальной станции' : 'Попробуйте заказать еще раз!'
 
   return (
     <>
       <h2 className={`${orderDetailsStyles.id} mt-30 mb-8 text text_type_digits-large`}>
-        {id}
+        {order.order.number}
       </h2>
       <p className={'text text_type_main-medium'}>Идентификатор заказа</p>
       <img className={`${orderDetailsStyles.image} mt-15 mb-15`}

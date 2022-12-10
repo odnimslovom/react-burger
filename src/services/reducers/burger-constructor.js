@@ -1,4 +1,4 @@
-import {ADD_BUN, ADD_FILLING, DELETE_FILLING,} from "../actions/burger-constructor";
+import {ADD_BUN, ADD_FILLING, DELETE_FILLING, MOVE_FILLING,} from "../actions/burger-constructor";
 
 const initialState = {
   bunItem: [],
@@ -10,18 +10,29 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case ADD_BUN:
       return {
         ...state,
-        bun: action.payload
+        bunItem: action.payload
       };
     case ADD_FILLING:
       return {
         ...state,
-        ingredients: [...state.fillingItems, action.payload]
+        fillingItems: [...state.fillingItems, action.payload]
       };
+    case MOVE_FILLING: {
+      {
+        const newState = [...state.fillingItems];
+        const prevItem = newState.splice(action.payload.hoverIDX, 1, action.payload.item);
+        newState.splice(action.payload.dragIDX, 1, prevItem[0])
+        return {
+          ...state,
+          fillingItems: newState
+        };
+      }
+    }
     case DELETE_FILLING:
       return {
         ...state,
-        ingredients: [...state.fillingItems].filter(item => item.id === action.payload)
-      }
+        fillingItems: [...state.fillingItems].filter(item => item.itemID !== action.payload)
+      };
     default:
       return state;
   }

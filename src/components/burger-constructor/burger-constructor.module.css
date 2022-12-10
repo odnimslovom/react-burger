@@ -9,6 +9,8 @@
 
 .ingredientsContainer {
   max-height: 656px;
+  min-height: 100px;
+  width: 100%;
   margin: 16px 16px 0 16px;
   display: flex;
   flex-direction: column;

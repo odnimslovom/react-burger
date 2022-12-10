@@ -1,29 +1,50 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
+import {v4 as uuidv4} from 'uuid';
 
 import burgerConstructorStyle from './burger-constructor.module.css';
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
+
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import ConstructorItem from "../constructor-item/constructor-item";
+import {addBun, addFilling} from "../../services/actions/burger-constructor";
+import {postOrder} from "../../services/actions/order-details";
 
 const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
-  const {bunItem, fillingItems} = useSelector(state => state.burgerConstructor);
   const [totalPrice, setTotalPrice] = useState(0);
+  const {bunItem, fillingItems} = useSelector(store => store.burgerConstructor);
+  const orderID = useMemo(
+    () => fillingItems.map(item => item._id), [fillingItems]
+  );
 
   useEffect(() => {
     const totalPrice = fillingItems.reduce(
-      (sum, item) => sum + item.price, bunItem.length !== 0 ? (bunItem.price * 2) : 0
+      (sum, item) => sum + item.price, bunItem.length === 0 ? 0 : (bunItem.price * 2)
     );
     setTotalPrice(totalPrice);
   }, [bunItem, fillingItems]);
 
-  function handleOrderClick() {
-    console.log("handleOrderClick");
+  const handleOrderClick = () => {
+    dispatch(postOrder(orderID));
+  }
+
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      onDropHandler(item);
+    }
+  })
+
+  const onDropHandler = (item) => {
+    const itemID = uuidv4();
+    item.type === 'bun' ? dispatch(addBun(item, itemID)) : dispatch(addFilling(item, itemID));
   }
 
   return (
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
-      <div className={`${burgerConstructorStyle.ingredientsContainer}`}>
+      <div className={`${burgerConstructorStyle.ingredientsContainer}`} ref={dropTarget}>
         {
           bunItem.length !== 0 && <ConstructorElement type={"top"}
                                                       isLocked={true}
@@ -33,15 +54,10 @@ const BurgerConstructor = () => {
         }
         <ul className={`pl-4 ${burgerConstructorStyle.elements}`}>
           {
-            fillingItems !== 0 && fillingItems.map(ingredient => (
-              <li key={ingredient._id} className={`m-4 ${burgerConstructorStyle.ingredient}`}>
-                <DragIcon type={"primary"}/>
-                <ConstructorElement isLocked={false}
-                                    text={ingredient.name}
-                                    thumbnail={ingredient.image}
-                                    price={ingredient.price}/>
-              </li>
-            ))
+            fillingItems !== 0 &&
+            fillingItems.map((ingredient, idx) => {
+              return <ConstructorItem key={ingredient.itemID} item={ingredient} idx={idx}/>
+            })
           }
         </ul>
 

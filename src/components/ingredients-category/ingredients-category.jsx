@@ -4,9 +4,9 @@ import {useSelector} from "react-redux";
 import IngredientItem from "../ingredient-item/ingredient-item";
 
 
-const IngredientsCategory = ({name, ingredientType}) => {
+const IngredientsCategory = ({ name, ingredientType}) => {
 
-  const {ingredients} = useSelector(state => state.burgerIngredients);
+  const {ingredients} = useSelector(store => store.burgerIngredients);
   const categoryItems = ingredients.filter(item => item.type === ingredientType);
 
   return (
