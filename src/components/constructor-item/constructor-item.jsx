@@ -1,7 +1,11 @@
 import {useDispatch} from "react-redux";
 import {useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
+
 import constructorItemStyles from './constructor-item.module.css';
+import PropTypes from "prop-types";
+import {ingredientItemTypes} from "../../utils/propTypes";
+
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import {deleteFilling, moveFilling} from "../../services/actions/burger-constructor";
@@ -48,6 +52,11 @@ const ConstructorItem = ({item, idx}) => {
       />
     </li>
   )
+}
+
+ConstructorItem.propTypes = {
+  item: ingredientItemTypes,
+  idx: PropTypes.number.isRequired
 }
 
 export default ConstructorItem;

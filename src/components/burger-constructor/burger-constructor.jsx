@@ -7,11 +7,11 @@ import burgerConstructorStyle from './burger-constructor.module.css';
 
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
+
 import {addBun, addFilling} from "../../services/actions/burger-constructor";
 import {postOrder} from "../../services/actions/order-details";
 
 const BurgerConstructor = () => {
-
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
   const {bunItem, fillingItems} = useSelector(store => store.burgerConstructor);
@@ -46,6 +46,11 @@ const BurgerConstructor = () => {
     <section className={`pt-25 ml-10 ${burgerConstructorStyle.section}`}>
       <div className={`${burgerConstructorStyle.ingredientsContainer}`} ref={dropTarget}>
         {
+          bunItem.length === 0
+          && fillingItems.length === 0
+          && <p className="text text_type_main-default">Перетащите компоненты бургера сюда</p>
+        }
+        {
           bunItem.length !== 0 && <ConstructorElement type={"top"}
                                                       isLocked={true}
                                                       text={`${bunItem.name} (верх)`}
@@ -60,7 +65,6 @@ const BurgerConstructor = () => {
             })
           }
         </ul>
-
         {
           bunItem.length !== 0 && <ConstructorElement type={"bottom"}
                                                       isLocked={true}
@@ -68,7 +72,6 @@ const BurgerConstructor = () => {
                                                       thumbnail={bunItem.image}
                                                       price={bunItem.price}/>
         }
-
       </div>
 
       <div className={`${burgerConstructorStyle.total} mt-10`}>
@@ -76,9 +79,17 @@ const BurgerConstructor = () => {
           <p className={'text text_type_digits-medium'}>{totalPrice}</p>
           <CurrencyIcon type={"primary"}/>
         </div>
-        <Button type={'primary'} size={"medium"} onClick={handleOrderClick}>Оформить заказ</Button>
+        {
+          totalPrice !== 0
+          && fillingItems.length !== 0
+          && <Button
+            type={'primary'}
+            size={"medium"}
+            onClick={handleOrderClick}
+          >
+            Оформить заказ
+          </Button>}
       </div>
-
     </section>
   );
 }

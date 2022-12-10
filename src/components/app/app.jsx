@@ -9,14 +9,13 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingridients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-
-import {getIngredients} from "../../services/actions/burger-ingredients";
-import {unsetModal} from "../../services/actions/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
-const App = () => {
+import {getIngredients} from "../../services/actions/burger-ingredients";
+import {unsetModal} from "../../services/actions/modal";
 
+const App = () => {
   const dispatch = useDispatch();
   const {isLoading, hasError} = useSelector(store => store.burgerIngredients);
   const {isModalOpen, contentModal, typeModal} = useSelector(store => store.modal);

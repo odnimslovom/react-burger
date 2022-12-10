@@ -1,9 +1,9 @@
 import orderDetailsStyles from './order-details.module.css';
-import orderAcceptedImg from '../../images/order/order_accepted.png';
 import {orderItemTypes} from "../../utils/propTypes";
 
-const OrderDetails = ({order}) => {
+import orderAcceptedImg from '../../images/order/order_accepted.png';
 
+const OrderDetails = ({order}) => {
   const statusMessage = order.success ? 'Ваш заказ начали готовить' : 'Что-то пошло не так..';
   const infoMessage = order.success ? 'Дождитесь\n' +
     'готовности на орбитальной станции' : 'Попробуйте заказать еще раз!'

@@ -10,7 +10,6 @@ import {setModal} from "../../services/actions/modal";
 import {useDrag} from "react-dnd";
 
 const IngredientItem = ({item}) => {
-
   const dispatch = useDispatch();
   const {bunItem, fillingItems} = useSelector(store => store.burgerConstructor);
 
@@ -29,12 +28,11 @@ const IngredientItem = ({item}) => {
 
   const [, dragRef] = useDrag({
     type: 'ingredient',
-    item: { ...item },
+    item: {...item},
     collect: monitor => ({
       isDrag: monitor.isDragging()
     })
   })
-
 
   return (
     <li className={`${ingredientItemStyles.ingredientItem} mt-6 mb-10 pl-4 pr-6`}

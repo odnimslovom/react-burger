@@ -53,14 +53,13 @@ const BurgerIngredients = () => {
         <div ref={bunsRef}>
           <IngredientsCategory key='buns' name='Булки' ingredientType='bun'/>
         </div>
-        <div ref={saucesRef}>
+        <div ref={saucesRef} >
           <IngredientsCategory key='buns' name='Соусы' ingredientType='sauce'/>
         </div>
         <div ref={fillingsRef}>
           <IngredientsCategory key='buns' name='Начинки' ingredientType='main'/>
         </div>
       </ul>
-
     </section>
   );
 }
