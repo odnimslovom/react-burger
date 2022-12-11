@@ -21,6 +21,7 @@ const App = () => {
   const {isModalOpen, contentModal, typeModal} = useSelector(store => store.modal);
   const orderInfo = useSelector(store => store.orderDetails);
 
+
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);

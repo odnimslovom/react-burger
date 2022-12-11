@@ -5,6 +5,7 @@ import orderAcceptedImg from '../../images/order/order_accepted.png';
 
 const OrderDetails = ({order}) => {
 
+
   const {isLoading, hasError, orderInfo} = order;
 
   const statusMessage = order.orderInfo.success ? 'Ваш заказ начали готовить' : 'Что-то пошло не так..';
