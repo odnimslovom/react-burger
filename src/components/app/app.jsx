@@ -20,6 +20,7 @@ const App = () => {
   const {isLoading, hasError} = useSelector(store => store.burgerIngredients);
   const {isModalOpen, contentModal, typeModal} = useSelector(store => store.modal);
   const {orderInfo} = useSelector(store => store.orderDetails);
+  console.log(orderInfo);
 
   useEffect(() => {
     dispatch(getIngredients());

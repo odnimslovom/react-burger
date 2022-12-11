@@ -39,24 +39,31 @@ const BurgerIngredients = () => {
     handleScroll();
   }, [bunsInView, saucesInView, fillingsInView]);
 
+  const handleTabClick = (type) => {
+    setCurrent(type);
+    const section = document.getElementById(type);
+    section.scrollIntoView({behavior: "smooth", block: "start"});
+  };
+
+
   return (
     <section className={burgerIngredientsStyles.section}>
       <h1 className={'text text_type_main-large pt-10 pb-5'}>Соберите бургер</h1>
 
       <div className={`${burgerIngredientsStyles.tabs} mt-5 mb-10`}>
-        <Tab active={current === 'buns'} value='buns' onClick={setCurrent}>Булки</Tab>
-        <Tab active={current === 'sauces'} value='sauces' onClick={setCurrent}>Соусы</Tab>
-        <Tab active={current === 'fillings'} value='fillings' onClick={setCurrent}>Начинки</Tab>
+        <Tab active={current === 'buns'} value='buns' onClick={() => handleTabClick('buns')}>Булки</Tab>
+        <Tab active={current === 'sauces'} value='sauces' onClick={() => handleTabClick('sauces')}>Соусы</Tab>
+        <Tab active={current === 'fillings'} value='fillings' onClick={() => handleTabClick('fillings')}>Начинки</Tab>
       </div>
 
       <ul className={`${burgerIngredientsStyles.categories}`}>
-        <div ref={bunsRef}>
+        <div ref={bunsRef} id='buns'>
           <IngredientsCategory key='buns' name='Булки' ingredientType='bun'/>
         </div>
-        <div ref={saucesRef} >
+        <div ref={saucesRef} id='sauces'>
           <IngredientsCategory key='buns' name='Соусы' ingredientType='sauce'/>
         </div>
-        <div ref={fillingsRef}>
+        <div ref={fillingsRef} id='fillings'>
           <IngredientsCategory key='buns' name='Начинки' ingredientType='main'/>
         </div>
       </ul>

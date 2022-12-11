@@ -15,3 +15,4 @@ export const getIngredients = () => dispatch => {
       console.error(err);
     });
 };
+

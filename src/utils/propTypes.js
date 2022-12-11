@@ -15,13 +15,14 @@ const ingredientTypes = {
   __v: PropTypes.number.isRequired
 };
 
-const orderTypes = {
+export const orderTypes = {
   name: PropTypes.string.isRequired,
   order: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }),
-  status: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
 }
 
 export const orderItemTypes = PropTypes.shape(orderTypes).isRequired
