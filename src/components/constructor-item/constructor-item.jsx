@@ -42,7 +42,7 @@ const ConstructorItem = ({item, idx}) => {
   }
 
   return (
-    <li key={item.itemID} className={`mt-4 pr-5 ${constructorItemStyles.item}`} ref={ref} draggable>
+    <li className={`mt-4 pr-5 ${constructorItemStyles.item}`} ref={ref} draggable>
       <DragIcon/>
       <ConstructorElement
         text={item.name}
@@ -55,7 +55,7 @@ const ConstructorItem = ({item, idx}) => {
 }
 
 ConstructorItem.propTypes = {
-  item: ingredientItemTypes,
+  item: ingredientItemTypes.isRequired,
   idx: PropTypes.number.isRequired
 }
 
