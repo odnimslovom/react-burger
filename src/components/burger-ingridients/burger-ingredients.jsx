@@ -1,79 +1,74 @@
+import {useEffect, useState} from "react";
+import {useInView} from "react-intersection-observer";
+
 import burgerIngredientsStyles from './burger-ingredients.module.css';
-import React, {useEffect} from "react";
-import {ingredientItemTypes, ingredientsArrayTypes} from '../../utils/propTypes'
 
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import PropTypes from "prop-types";
 
-const BurgerIngredients = ({data}) => {
+const BurgerIngredients = () => {
 
-    const [current, setCurrent] = React.useState('buns');
-    const [ingredientDetails, setIngredientDetails] = React.useState({
-        _id: '',
-        name: '',
-        type: '',
-        proteins: 0,
-        fat: 0,
-        carbohydrates:0,
-        calories: 0,
-        price: 0,
-        image: '',
-        image_mobile: '',
-        image_large: '',
-        __v: 0
-    });
-    const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
+  const [current, setCurrent] = useState('buns');
+  const [bunsRef, bunsInView] = useInView({
+    threshold: 0.2
+  });
+  const [saucesRef, saucesInView] = useInView({
+    threshold: 0.2
+  });
+  const [fillingsRef, fillingsInView] = useInView({
+    threshold: 0.2
+  });
 
-
-    const ingredientCategories = [
-        {name: "Булки", type: 'bun'},
-        {name: "Соусы", type: 'sauce'},
-        {name: "Начинки", type: 'main'}
-    ]
-
-    const handleClose = () => {
-        setIngredientModalIsOpen(false);
+  const handleScroll = () => {
+    switch (true) {
+      case bunsInView:
+        setCurrent('buns');
+        break;
+      case saucesInView:
+        setCurrent('sauces');
+        break;
+      case fillingsInView:
+        setCurrent('fillings');
+        break;
+      default:
+        break;
     }
+  };
 
-    return (
-        <section className={burgerIngredientsStyles.section}>
-            <h1 className={'text text_type_main-large pt-10 pb-5'}>Соберите бургер</h1>
-            <div className={`${burgerIngredientsStyles.tabs} mt-5 mb-10`}>
-                <Tab active={current === 'buns'} value={'buns'} onClick={setCurrent}>Булки</Tab>
-                <Tab active={current === 'sauces'} value={'sauces'} onClick={setCurrent}>Соусы</Tab>
-                <Tab active={current === 'fillings'} value={'fillings'} onClick={setCurrent}>Начинки</Tab>
-            </div>
+  useEffect(() => {
+    handleScroll();
+  }, [bunsInView, saucesInView, fillingsInView]);
 
-            <ul className={`${burgerIngredientsStyles.categories}`}>
-                {ingredientCategories.map(category => {
-                        const currentCategoryItems = data.filter(item => item.type === category.type);
-                        return (<IngredientsCategory key={category.type}
-                                                     name={category.name}
-                                                     items={currentCategoryItems}
-                                                     setIngredient={setIngredientDetails}
-                                                     setIngredientModal={setIngredientModalIsOpen}
+  const handleTabClick = (type) => {
+    setCurrent(type);
+    const section = document.getElementById(type);
+    section.scrollIntoView({behavior: "smooth", block: "start"});
+  };
 
-                        />);
-                    }
-                )}
-            </ul>
-            <Modal isOpened={ingredientModalIsOpen} handleClose={handleClose}>
-                <IngredientDetails item={ingredientDetails}/>
-            </Modal>
-        </section>
-    );
+
+  return (
+    <section className={burgerIngredientsStyles.section}>
+      <h1 className={'text text_type_main-large pt-10 pb-5'}>Соберите бургер</h1>
+
+      <div className={`${burgerIngredientsStyles.tabs} mt-5 mb-10`}>
+        <Tab active={current === 'buns'} value='buns' onClick={() => handleTabClick('buns')}>Булки</Tab>
+        <Tab active={current === 'sauces'} value='sauces' onClick={() => handleTabClick('sauces')}>Соусы</Tab>
+        <Tab active={current === 'fillings'} value='fillings' onClick={() => handleTabClick('fillings')}>Начинки</Tab>
+      </div>
+
+      <ul className={`${burgerIngredientsStyles.categories}`}>
+        <div ref={bunsRef} id='buns'>
+          <IngredientsCategory key='buns' name='Булки' ingredientType='bun'/>
+        </div>
+        <div ref={saucesRef} id='sauces'>
+          <IngredientsCategory key='buns' name='Соусы' ingredientType='sauce'/>
+        </div>
+        <div ref={fillingsRef} id='fillings'>
+          <IngredientsCategory key='buns' name='Начинки' ingredientType='main'/>
+        </div>
+      </ul>
+    </section>
+  );
 }
-
-BurgerIngredients.propTypes = {
-    data: ingredientsArrayTypes
-}
-
-IngredientDetails.propTypes = {
-    item : ingredientItemTypes
-}
-
 export default BurgerIngredients;
 
