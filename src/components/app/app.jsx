@@ -12,6 +12,14 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
+import {
+  LoginPage,
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  ProfilePage,
+} from './../../pages/index'
+
 import {getIngredients} from "../../services/actions/burger-ingredients";
 import {unsetModal} from "../../services/actions/modal";
 
@@ -44,8 +52,10 @@ const App = () => {
         }
         {!isLoading && !hasError &&
           <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients/>
-            <BurgerConstructor/>
+            {/*<BurgerIngredients/>*/}
+            {/*<BurgerConstructor/>*/}
+            {/*<LoginPage />*/}
+            <ProfilePage />
           </DndProvider>
         }
       </main>
